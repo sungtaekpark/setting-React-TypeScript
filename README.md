@@ -1,47 +1,137 @@
-# Getting Started with Create React App
+# React-TypeScript-Settings
+1. React-TypeScript
+2. ESLint-Prettier
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+VSCode 에디터 기반으로 리액트 프로젝트 환경설정에 대한 내용입니다.
 
-## Available Scripts
+변경사항은 계속 업데이트 예정입니다.
 
-In the project directory, you can run:
+React 설치
 
-### `yarn start`
+TypeScript 설치
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+ESLint-Prettier 설치 및 설정
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+레퍼런스
 
-### `yarn test`
+레포 주소
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**이 글은 기본적인 프로그램이 설치된 상태를 가정합니다(node, npx, vscode)**
 
-### `yarn build`
+## React & TypeScript 설치
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+타입스크립트 템플릿 CRA로 손쉽게 설치할 수 있다
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```jsx
+npx create-react-app [project name] --template typescript
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- `--template` 를 빼먹을 경우 타입스크립트를 제외한 React 환경만 설치된다.
+- 프로젝트 파일들을 살펴보자 예 )`.tsx` 로 이루어져있는지
 
-### `yarn eject`
+## ESLint 설정하기
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- ESLint? 
+- ESLint는 ECMAScript 코드에서 문제점을 검사하고 일부는 더 나은 코드로 정정하는 린트 도구 중의 하나
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 필요한 모듈 설치하기
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```jsx
+npm i --save-dev typescript eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+`.eslintrc.json` 파일 수정
 
-## Learn More
+```jsx
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "env": {
+    "node": true
+  },
+  "extends": ["plugin:@typescript-eslint/recommended"]
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### typescript-eslint 실행
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-# setting-React-TypeScript
+```jsx
+# 기본적으로 js 확장자만 검사하므로
+npx eslint --ext .js,.ts src
+# 또는
+npx eslint src/**/*
+```
+
+### vscode 에서 ESLint Extenstion 을 설치한 후 `settings.json` 파일에 다음의 항목을 추가한다.
+
+```jsx
+{
+  "eslint.validate": [
+    { "language": "typescript", "autoFix": true },
+    { "language": "typescriptreact", "autoFix": true }
+  ]
+}
+```
+
+## Prettier 적용하기
+
+- Prettier?
+- An opinionated code formatter
+- 이 단계는 ESLint를 적용한 이후에 진행한다
+
+### 필요한 모듈 설치
+
+```jsx
+npm i --save-dev prettier eslint-plugin-prettier eslint-config-prettier
+```
+
+`.eslintrc.json` 설정에 추가
+
+```jsx
+{
+  "extends": ["plugin:prettier/recommended", "prettier/@typescript-eslint"]
+}
+```
+
+최종
+
+```jsx
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "env": {
+    "node": true
+  },
+  "extends": ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended", "prettier/@typescript-eslint"]
+}
+```
+
+### vscode 에서 Prettier Extenstion 을 설치한 후 `settings.json` 파일에 다음의 항목을 추가한다.
+
+```jsx
+{
+  "javascript.format.enable": false,
+  "typescript.format.enable": false
+}
+```
+
+## 관련 에러 핸들링
+
+`Could not find a declaration file for module 'react'. '/Users/sungtaekpark/personal/eslint-setting/node_modules/react/index.js' implicitly has an 'any' type.`
+
+ 위와 같은 에러가 발생하는 경우
+
+```jsx
+// 타입스크립트를 적용했기 때문에 타입스크립트 관련 모듈을 다시 설치해줬다
+$ npm install --save @types/react
+```
+
+- React 를 타입스크립트 버전으로 수정해주는 과정
+
+## Reference
+
+[[React] TypeScript와 ESLint, Prettier 설정하기](https://gingerkang.tistory.com/98)
