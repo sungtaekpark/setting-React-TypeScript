@@ -6,16 +6,6 @@ VSCode 에디터 기반으로 리액트 프로젝트 환경설정에 대한 내�
 
 변경사항은 계속 업데이트 예정입니다.
 
-React 설치
-
-TypeScript 설치
-
-ESLint-Prettier 설치 및 설정
-
-레퍼런스
-
-레포 주소
-
 **이 글은 기본적인 프로그램이 설치된 상태를 가정합니다(node, npx, vscode)**
 
 ## React & TypeScript 설치
